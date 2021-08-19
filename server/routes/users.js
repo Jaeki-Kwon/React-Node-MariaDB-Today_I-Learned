@@ -33,7 +33,7 @@ router.post("/login", (req, res) => {
     if (user.length > 0) {
       bcrypt.compare(password, user[0].password, (err, result) => {
         if (result) {
-          res.status(200).json({ loginSuccess: true });
+          res.status(200).json({ loginSuccess: true, result });
         } else {
           return res.json({
             loginSuccess: false,
