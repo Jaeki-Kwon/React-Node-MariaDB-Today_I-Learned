@@ -26,7 +26,7 @@ function LoginPage(props) {
     };
 
     axios.post("/api/users/login", body).then((response) => {
-      if (response.data.result) {
+      if (response.data.isMatch) {
         props.history.push("/");
         console.log("response.data", response.data);
       } else {

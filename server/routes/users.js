@@ -4,7 +4,7 @@ const db = require("../db");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const token = require("../token/Token");
+const { auth } = require("../middleware/auth");
 
 router.post("/register", (req, res) => {
   let { email, name, password } = req.body;
@@ -34,8 +34,8 @@ router.post("/login", (req, res) => {
     // console.log("password :", password);
     // console.log("row :", user[0].id);
     if (user.length > 0) {
-      bcrypt.compare(password, user[0].password, (err, result) => {
-        if (result) {
+      bcrypt.compare(password, user[0].password, (err, isMatch) => {
+        if (isMatch) {
           let generateToken = jwt.sign(user[0].id, "secreteToken");
 
           const update = "UPDATE user SET token=? WHERE email=?";
@@ -46,7 +46,7 @@ router.post("/login", (req, res) => {
           res
             .cookie("x_auth", generateToken)
             .status(200)
-            .json({ loginSuccess: true, result, user });
+            .json({ loginSuccess: true, isMatch: true, user });
           console.log("User : ", user);
           console.log("Token : ", generateToken);
           console.log("로그인성공?");
@@ -63,6 +63,41 @@ router.post("/login", (req, res) => {
         message: "등록되지 않은 사용자입니다. 이메일을 확인해주세요.",
       });
     }
+  });
+});
+
+router.get("/auth", auth, (req, res) => {
+  res.status(200).json({
+    message: "넘어왔나?",
+    _id: req.user.id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    role: req.user.role,
+  });
+});
+
+router.get("/logout", auth, (req, res) => {
+  let { id, token } = req.user;
+  console.log("ID : ", id);
+  console.log("Token : ", token);
+
+  let resetToken = "";
+
+  const sqlQuery = "SELECT * FROM user WHERE id=?";
+  db.query(sqlQuery, id, (err, user) => {
+    console.log("User!!! : ", user);
+
+    const updateData = [resetToken, id];
+    console.log("UpdateData : ", updateData);
+    const update = "UPDATE user SET token=? WHERE id=?";
+    db.query(update, updateData, (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({
+        success: true,
+      });
+    });
   });
 });
 
