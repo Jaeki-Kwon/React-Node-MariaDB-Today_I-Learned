@@ -5,53 +5,57 @@ import imgA from "../../../img/2.png";
 import { useSelector } from "react-redux";
 
 function LandingPage() {
-  // useEffect(() => {
-  //   axios.get("/api/hello").then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
   const user = useSelector((state) => state.user);
 
+  console.log("UserID : ", user);
   const ex = () => {
+    console.log("현재 로그인 된 id", user.userData._id);
     console.log("현재 로그인 된 email", user.userData.email);
-    console.log("글을 작성한 email : ", BoardList[0].writer.email);
-    console.log(BoardList);
+    // console.log("글을 작성한 email : ", BoardList[0].writer.email);
+    // console.log(user.userData._id);
   };
 
   const [BoardList, setBoardList] = useState([]);
 
   const getBoardList = () => {
-    axios.get("/api/board/getBoardList").then((response) => {
-      // console.log("ID : ", response.data.board[0].writer.email);
-
-      if (response.data.board.length > 0) {
-        setBoardList(response.data.board);
-      } else {
-        alert("글이 없습니다!");
-      }
-    });
+    console.log("User111 : ", user);
+    // ?id=${user.userData._id}
+    axios
+      .get(`/api/board/getBoardList?id=${user.userData._id}`)
+      .then((response) => {
+        console.log("ID : ", response.data.board);
+        if (response.data.board.length > 0) {
+          setBoardList(response.data.board);
+        } else {
+          alert("글이 없습니다!");
+        }
+      });
   };
 
   useEffect(() => {
     getBoardList();
+    console.log("User222 : ", user);
   }, []);
 
+  console.log("BoardList!!!! : ", BoardList.length);
+  console.log("User333 : ", user);
+
   const board = BoardList.map((item, index) => {
-    if (user.userData.email === item.writer.email) {
-      return (
-        <tr key={index}>
-          <th style={{ border: "1px solid black" }}>
-            <Link to={`/board/${item._id}`}>{item.createdAt}</Link>
-          </th>
-          <th style={{ border: "1px solid black" }}>
-            <Link to={`/board/${item._id}`}>{item.title}</Link>
-          </th>
-        </tr>
-      );
-    }
+    console.log("item : ", item);
+    console.log("User444 : ", user);
+    return (
+      <tr key={index}>
+        <th style={{ border: "1px solid black" }}>
+          <Link to={`/board/${item.id}`}>{item.createDate}</Link>
+        </th>
+        <th style={{ border: "1px solid black" }}>
+          <Link to={`/board/${item.id}`}>{item.title}</Link>
+        </th>
+      </tr>
+    );
   });
 
-  if (user.userData && !user.userData.isAuth) {
+  if (user.userData && !user.userData.isAuth && BoardList !== undefined) {
     return (
       <div
         className="main"
@@ -116,6 +120,7 @@ function LandingPage() {
             </tr>
           </thead>
           <tbody>{board}</tbody>
+          {console.log("Use5555 :sadfsdaffsdafsda ")}
         </table>
       </div>
     );
