@@ -7,13 +7,13 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
   // true : 로그인한 유저만 출입이 가능한 페이지
   // false : 로그인한 유저는 출입 불가능한 페이지
 
-  function AuthenticationCheck(props) {
+  const AuthenticationCheck = (props) => {
     let user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.log(response);
+        console.log("asdf : ", response);
         //로그인 하지 않은 상태
         if (!response.payload.isAuth) {
           if (option) {
@@ -31,6 +31,6 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
     }, []);
 
     return <SpecificComponent {...props} user={user} />;
-  }
+  };
   return AuthenticationCheck;
 }

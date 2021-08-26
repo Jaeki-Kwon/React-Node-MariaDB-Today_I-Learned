@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const { auth } = require("../middleware/auth");
 
 router.post("/write", (req, res) => {
   let { title, content, writer } = req.body;
@@ -17,10 +18,10 @@ router.post("/write", (req, res) => {
 
 router.get("/getBoardList", (req, res) => {
   console.log(req.query);
-  // const sqlQuery = "SELECT * FROM board WHERE board.writer=? ";
-  const sqlQuery =
-    "SELECT email, title, content, createDate, board.id FROM user, board WHERE user.id=board.writer";
-  db.query(sqlQuery, (err, board) => {
+  const sqlQuery = "SELECT * FROM board WHERE board.writer=? ";
+  // const sqlQuery =
+  //   "SELECT email, title, content, createDate, board.id FROM user, board WHERE user.id=board.writer";
+  db.query(sqlQuery, req.query.id, (err, board) => {
     // console.log("Result : ", board);
     if (err) return res.status(400).send(err);
     res.status(200).json({ success: true, board });

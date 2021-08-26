@@ -46,7 +46,7 @@ router.post("/login", (req, res) => {
           res
             .cookie("x_auth", generateToken)
             .status(200)
-            .json({ loginSuccess: true, isMatch: true, user });
+            .json({ loginSuccess: true, isMatch: true, userId: user[0].id });
           console.log("User : ", user);
           console.log("Token : ", generateToken);
           console.log("로그인성공?");

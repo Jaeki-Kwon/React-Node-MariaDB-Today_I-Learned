@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { registerUser } from "../../../_actions/user_actions";
+import { useDispatch } from "react-redux";
+
 function RegisterPage(props) {
+  const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Name, setName] = useState("");
   const [Password, setPassword] = useState("");
@@ -40,15 +44,23 @@ function RegisterPage(props) {
       password: Password,
     };
 
-    const register = axios
-      .post("/api/users/register", body)
-      .then((response) => response.data);
-    if (register) {
-      props.history.push("/login");
-      console.log(register);
-    } else {
-      alert("회원가입을 실패했습니다!");
-    }
+    // const register = axios
+    //   .post("/api/users/register", body)
+    //   .then((response) => response.data);
+    // if (register) {
+    //   props.history.push("/login");
+    //   console.log(register);
+    // } else {
+    //   alert("회원가입을 실패했습니다!");
+    // }
+
+    dispatch(registerUser(body)).then((response) => {
+      if (response.payload.success) {
+        props.history.push("/login");
+      } else {
+        alert(response.payload.err.errmsg);
+      }
+    });
   };
 
   return (

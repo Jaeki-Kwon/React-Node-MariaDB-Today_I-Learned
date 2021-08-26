@@ -7,13 +7,9 @@ import { useSelector } from "react-redux";
 function LandingPage() {
   const user = useSelector((state) => state.user);
 
+  console.log(localStorage);
+
   console.log("UserID : ", user);
-  const ex = () => {
-    console.log("현재 로그인 된 id", user.userData._id);
-    console.log("현재 로그인 된 email", user.userData.email);
-    // console.log("글을 작성한 email : ", BoardList[0].writer.email);
-    // console.log(user.userData._id);
-  };
 
   const [BoardList, setBoardList] = useState([]);
 
@@ -21,7 +17,7 @@ function LandingPage() {
     console.log("User111 : ", user);
     // ?id=${user.userData._id}
     axios
-      .get(`/api/board/getBoardList?id=${user.userData._id}`)
+      .get(`/api/board/getBoardList?id=${localStorage.userID}`)
       .then((response) => {
         console.log("ID : ", response.data.board);
         if (response.data.board.length > 0) {
@@ -71,7 +67,6 @@ function LandingPage() {
           width="100%"
           height="300px"
           alt="study"
-          onClick={ex}
         />
         <table
           style={{
@@ -105,7 +100,6 @@ function LandingPage() {
           width="100%"
           height="300px"
           alt="study"
-          onClick={ex}
         />
         <table
           style={{

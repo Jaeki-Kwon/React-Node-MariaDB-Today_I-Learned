@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../_actions/user_actions";
 
 function LoginPage(props) {
+  const dispatch = useDispatch();
+
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
@@ -25,45 +29,50 @@ function LoginPage(props) {
       password: Password,
     };
 
-    axios.post("/api/users/login", body).then((response) => {
-      if (response.data.isMatch) {
+    // axios.post("/api/users/login", body).then((response) => {
+    //   if (response.data.isMatch) {
+    //     window.localStorage.setItem("userEmail", body.email);
+    //     props.history.push("/");
+    //     console.log("response.data", response.data);
+    //   } else {
+    //     alert("Error~~~");
+    //   }
+    // });
+
+    dispatch(loginUser(body)).then((response) => {
+      console.log("RES : ", response);
+      if (response.payload.loginSuccess) {
+        window.localStorage.setItem("userID", response.payload.userId);
         props.history.push("/");
-        console.log("response.data", response.data);
       } else {
-        alert("Error~~~");
+        alert("Error");
       }
     });
   };
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100vh",
-        }}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={onSubmitHandler}
       >
-        <form
-          style={{ display: "flex", flexDirection: "column" }}
-          onSubmit={onSubmitHandler}
-        >
-          <label>Email</label>
-          <input type="email" value={Email} onChange={onEmailHandler} />
-          <br />
-          <label>Password</label>
-          <input
-            type="password"
-            value={Password}
-            onChange={onPasswordHandler}
-          />
-          <br />
-          <button>Login</button>
-        </form>
-      </div>
-    </>
+        <label>Email</label>
+        <input type="email" value={Email} onChange={onEmailHandler} />
+        <br />
+        <label>Password</label>
+        <input type="password" value={Password} onChange={onPasswordHandler} />
+        <br />
+        <button>Login</button>
+      </form>
+    </div>
   );
 }
 
