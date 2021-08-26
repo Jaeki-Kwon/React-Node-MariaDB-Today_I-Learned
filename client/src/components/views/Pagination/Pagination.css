@@ -1,0 +1,20 @@
+.btn {
+  margin-top: 10px;
+}
+
+.pagination li {
+  display: inline-block;
+  background: #dedede;
+  overflow: hidden;
+}
+
+.pagination li a {
+  text-decoration: none;
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+}
+
+.pagination li a:focus {
+  background-color: yellow;
+}

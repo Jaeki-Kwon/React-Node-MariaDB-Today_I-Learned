@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import imgA from "../../../img/2.png";
 import { useSelector } from "react-redux";
+import Pagination from "../Pagination/Pagination";
 
 function LandingPage() {
   const user = useSelector((state) => state.user);
@@ -12,10 +13,28 @@ function LandingPage() {
   console.log("UserID : ", user);
 
   const [BoardList, setBoardList] = useState([]);
+  const [currentPage, setcurrentPage] = useState(1);
+  const [postPerPage] = useState(10);
+
+  // 현재페이지 가져오기
+  const indexLastBoard = currentPage * postPerPage;
+  const indexFirstBoard = indexLastBoard - postPerPage;
+  const currentBoards = BoardList.slice(indexFirstBoard, indexLastBoard);
+  const currentBoards2 = BoardList.slice(11, 20);
+
+  const ex = () => {
+    console.log("BoardList : ", BoardList);
+    console.log(currentBoards.length);
+    console.log("currentBoards2 : ", currentBoards2);
+    console.log("indexFirstBoard : ", indexFirstBoard);
+    console.log("indexLastBoard : ", indexLastBoard);
+    console.log("postPerPage : ", postPerPage);
+  };
+
+  // 페이지 바꾸기
+  const paginate = (pageNum) => setcurrentPage(pageNum);
 
   const getBoardList = () => {
-    console.log("User111 : ", user);
-    // ?id=${user.userData._id}
     axios
       .get(`/api/board/getBoardList?id=${localStorage.userID}`)
       .then((response) => {
@@ -30,15 +49,10 @@ function LandingPage() {
 
   useEffect(() => {
     getBoardList();
-    console.log("User222 : ", user);
   }, []);
 
-  console.log("BoardList!!!! : ", BoardList.length);
-  console.log("User333 : ", user);
-
-  const board = BoardList.map((item, index) => {
-    console.log("item : ", item);
-    console.log("User444 : ", user);
+  const board = currentBoards.map((item, index) => {
+    // console.log("Item : ", item);
     return (
       <tr key={index}>
         <th style={{ border: "1px solid black" }}>
@@ -67,6 +81,7 @@ function LandingPage() {
           width="100%"
           height="300px"
           alt="study"
+          onClick={ex}
         />
         <table
           style={{
@@ -100,6 +115,7 @@ function LandingPage() {
           width="100%"
           height="300px"
           alt="study"
+          onClick={ex}
         />
         <table
           style={{
@@ -114,8 +130,12 @@ function LandingPage() {
             </tr>
           </thead>
           <tbody>{board}</tbody>
-          {console.log("Use5555 :sadfsdaffsdafsda ")}
         </table>
+        <Pagination
+          postPerPage={postPerPage}
+          totalBoards={BoardList.length}
+          paginate={paginate}
+        />
       </div>
     );
   }
