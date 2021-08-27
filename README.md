@@ -28,4 +28,5 @@
 
 > ### 배포
     Heroku를 사용하여 배포 함.
-    Click 
+## 배포 사이트 : [Click](https://www.naver.com/) 
+---
