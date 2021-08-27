@@ -23,5 +23,5 @@
 
 > ### 게시판 이미지
 
-- 메인화면
+### 메인화면
 ![today_i_learned](https://user-images.githubusercontent.com/67590061/131098362-1c50f582-fb64-4603-a289-7ff61a9c5767.png)
