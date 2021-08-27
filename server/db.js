@@ -1,10 +1,12 @@
 const mysql = require("mysql");
+require("dotenv").config();
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "jaeki8840",
-  database: "today_i_learned",
+  host: process.env.MariaDB_HOST,
+  port: process.env.MariaDB_PORT,
+  user: process.env.MariaDB_USER,
+  password: process.env.MariaDB_PASS,
+  database: process.env.MariaDB_DATABASE,
 });
 
 module.exports = db;
