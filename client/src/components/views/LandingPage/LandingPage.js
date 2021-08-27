@@ -20,12 +20,10 @@ function LandingPage() {
   const indexLastBoard = currentPage * postPerPage;
   const indexFirstBoard = indexLastBoard - postPerPage;
   const currentBoards = BoardList.slice(indexFirstBoard, indexLastBoard);
-  const currentBoards2 = BoardList.slice(11, 20);
 
   const ex = () => {
     console.log("BoardList : ", BoardList);
     console.log(currentBoards.length);
-    console.log("currentBoards2 : ", currentBoards2);
     console.log("indexFirstBoard : ", indexFirstBoard);
     console.log("indexLastBoard : ", indexLastBoard);
     console.log("postPerPage : ", postPerPage);

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
