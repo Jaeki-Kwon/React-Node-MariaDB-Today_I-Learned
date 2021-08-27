@@ -25,3 +25,7 @@
 
 - 메인화면
 ![today_i_learned](https://user-images.githubusercontent.com/67590061/131098362-1c50f582-fb64-4603-a289-7ff61a9c5767.png)
+
+> ### 배포
+    Heroku를 사용하여 배포 함.
+    Click 
