@@ -8,7 +8,7 @@
 
 > ### 사용한 기술
 
-- Frontend : React, 
+- Frontend : React, Redux
 - Backend : Node JS
 - Database : MariaDB
 
