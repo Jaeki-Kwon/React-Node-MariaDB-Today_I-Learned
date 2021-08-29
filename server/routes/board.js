@@ -7,7 +7,7 @@ router.post("/write", (req, res) => {
   let { title, content, writer } = req.body;
   console.log(req.body);
   const sqlQuery =
-    "INSERT INTO board (title, content, writer) VALUES (?, ?, ?)";
+    "INSERT INTO board (title, content, writer, createDate) VALUES (?, ?, ?, NOW())";
   db.query(sqlQuery, [title, content, writer], (err, result) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
