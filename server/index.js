@@ -12,11 +12,10 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/board", require("./routes/board"));
 
-app.use(express.static(path.join("../client/build")));
-
+app.use(express.static("client/build"));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve("../client", "build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
 });
 
 const PORT = process.env.PORT || 8000;
