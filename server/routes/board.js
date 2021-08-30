@@ -4,11 +4,11 @@ const db = require("../db");
 const { auth } = require("../middleware/auth");
 
 router.post("/write", (req, res) => {
-  let { title, content, writer } = req.body;
+  let { title, content, writer, now } = req.body;
   console.log(req.body);
   const sqlQuery =
-    "INSERT INTO board (title, content, writer, createDate) VALUES (?, ?, ?, NOW())";
-  db.query(sqlQuery, [title, content, writer], (err, result) => {
+    "INSERT INTO board (title, content, writer, createDate) VALUES (?, ?, ?, ?)";
+  db.query(sqlQuery, [title, content, writer, now], (err, result) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
       success: true,
