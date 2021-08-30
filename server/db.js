@@ -7,6 +7,7 @@ const db = mysql.createPool({
   user: process.env.MariaDB_USER,
   password: process.env.MariaDB_PASS,
   database: process.env.MariaDB_DATABASE,
+  dateStrings: 'date'
 });
 
 module.exports = db;
