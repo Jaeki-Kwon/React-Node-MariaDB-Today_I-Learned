@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 let auth = (req, res, next) => {
   let token = req.cookies.x_auth;
+  token = token ? token : 'token'
   // console.log("Decoded : ", token);
 
   const sqlQuery = "SELECT * FROM user WHERE token=?";
