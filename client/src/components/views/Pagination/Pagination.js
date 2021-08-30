@@ -3,7 +3,7 @@ import "./Pagination.css";
 
 function Pagination({ postPerPage, totalBoards, paginate }) {
   const pageNumbers = [];
-  console.log("pageNumbers : ", pageNumbers);
+//   console.log("pageNumbers : ", pageNumbers);
 
   for (let i = 0; i < Math.ceil(totalBoards / postPerPage); i++) {
     pageNumbers.push(i);
