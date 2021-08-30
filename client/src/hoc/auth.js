@@ -13,7 +13,7 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.log("asdf : ", response);
+//         console.log("asdf : ", response);
         //로그인 하지 않은 상태
         if (!response.payload.isAuth) {
           if (option) {
