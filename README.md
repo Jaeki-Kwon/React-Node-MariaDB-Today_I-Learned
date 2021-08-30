@@ -28,5 +28,5 @@
 
 > ### 배포
 ### Heroku를 사용하여 배포 함.
-## 배포 사이트 : [https://today-i-learned-mariadb.herokuapp.com/] (https://today-i-learned-mariadb.herokuapp.com/)
+## 배포 사이트 : https://today-i-learned-mariadb.herokuapp.com/
 ---
