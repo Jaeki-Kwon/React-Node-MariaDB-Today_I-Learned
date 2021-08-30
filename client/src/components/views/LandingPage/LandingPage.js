@@ -8,9 +8,9 @@ import Pagination from "../Pagination/Pagination";
 function LandingPage() {
   const user = useSelector((state) => state.user);
 
-  console.log(localStorage);
+//   console.log(localStorage);
 
-  console.log("UserID : ", user);
+//   console.log("UserID : ", user);
 
   const [BoardList, setBoardList] = useState([]);
   const [currentPage, setcurrentPage] = useState(1);
@@ -36,7 +36,7 @@ function LandingPage() {
     axios
       .get(`/api/board/getBoardList?id=${localStorage.userID}`)
       .then((response) => {
-        console.log("ID : ", response.data.board);
+//         console.log("ID : ", response.data.board);
         if (response.data.board.length > 0) {
           setBoardList(response.data.board);
         } else {
