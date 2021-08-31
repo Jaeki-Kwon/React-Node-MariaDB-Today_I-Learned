@@ -4,11 +4,14 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { getNow } from "../GetCurrentTime/GetCurrentTime";
 
 function BoardWriteForm(props) {
   // const writer = props.writer;
   // const title = props.titel;
   // const content = props.content;
+
+  // console.log("getTime : ", getNo());
 
   const user = useSelector((state) => state.user);
 
@@ -22,17 +25,17 @@ function BoardWriteForm(props) {
   const handleChange = (e, editor) => {
     setData(editor.getData());
   };
-  
-  const getNow = () => {
-    let now = new Date()
-    const year = now.getFullYear();
-    const month = ("0" + (now.getMonth() + 1)).slice(-2);
-    const day = ("0" + now.getDate()).slice(-2);
-    const hour = ("0" + now.getHours()).slice(-2);
-    const minute = ("0" + now.getMinutes()).slice(-2);
 
-    return year + "-" + month + "-" + day + "   " + hour + ":" + minute;
-  }
+  // const getNow = () => {
+  //   let now = new Date();
+  //   const year = now.getFullYear();
+  //   const month = ("0" + (now.getMonth() + 1)).slice(-2);
+  //   const day = ("0" + now.getDate()).slice(-2);
+  //   const hour = ("0" + now.getHours()).slice(-2);
+  //   const minute = ("0" + now.getMinutes()).slice(-2);
+
+  //   return year + "-" + month + "-" + day + "   " + hour + ":" + minute;
+  // };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -53,7 +56,7 @@ function BoardWriteForm(props) {
       writer: user.userData._id,
       title: Title,
       content: text,
-      now: getNow()
+      now: getNow(),
     };
 
     axios.post("/api/board/write", body).then((response) => {

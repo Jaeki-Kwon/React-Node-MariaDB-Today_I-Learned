@@ -3,6 +3,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Button } from "antd";
 import axios from "axios";
+import { getNow } from "../GetCurrentTime/GetCurrentTime";
 
 function BoardUpdate(props) {
   let boardId = props.match.params.boardId;
@@ -39,6 +40,7 @@ function BoardUpdate(props) {
       boardId: boardId,
       title: Title,
       content: text,
+      now: getNow(),
     };
 
     axios.post("/api/board/updateBoard", body).then((response) => {
