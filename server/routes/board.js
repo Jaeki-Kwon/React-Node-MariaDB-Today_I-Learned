@@ -51,12 +51,13 @@ router.post("/deleteBoard", (req, res) => {
 
 router.post("/updateBoard", (req, res) => {
   console.log("~~~~ : ", req.body);
-  let { boardId, title, content } = req.body;
+  let { boardId, title, content, now } = req.body;
   const sqlQuery = "SELECT id FROM board WHERE id = ?";
   db.query(sqlQuery, boardId, (err, id) => {
     console.log("ID : ", id[0]);
-    const update = "UPDATE board SET title=?, content=? WHERE id=?";
-    db.query(update, [title, content, boardId], (err, update) => {
+    const update =
+      "UPDATE board SET title=?, content=?, createDate=? WHERE id=?";
+    db.query(update, [title, content, now, boardId], (err, update) => {
       console.log("Update : ", update);
       if (err) return res.status(400).send(err);
       return res.status(200).json({ success: true, update });
