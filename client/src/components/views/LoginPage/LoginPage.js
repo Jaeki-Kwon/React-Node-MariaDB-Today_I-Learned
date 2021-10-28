@@ -44,7 +44,14 @@ function LoginPage(props) {
         window.localStorage.setItem("userID", response.payload.userId);
         props.history.push("/");
       } else {
-        alert("Error");
+        if (
+          response.payload.message ===
+          "등록되지 않은 사용자입니다. 이메일을 확인해주세요."
+        ) {
+          alert("이메일을 다시 입력하시오");
+        } else {
+          alert("비밀번호를 입력하시오.");
+        }
       }
     });
   };

@@ -51,6 +51,7 @@ router.post("/deleteBoard", (req, res) => {
 
 router.post("/updateBoard", (req, res) => {
   console.log("~~~~ : ", req.body);
+  console.log("~~~~1 : ", req.body);
   let { boardId, title, content, now } = req.body;
   const sqlQuery = "SELECT id FROM board WHERE id = ?";
   db.query(sqlQuery, boardId, (err, id) => {
