@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import axios from "axios";
 import { getNow } from "../GetCurrentTime/GetCurrentTime";
@@ -8,38 +6,39 @@ import { getNow } from "../GetCurrentTime/GetCurrentTime";
 function BoardUpdate(props) {
   let boardId = props.match.params.boardId;
 
+  const variable = { boardId: boardId };
+
   const [Title, setTitle] = useState("");
   const [Data, setData] = useState("");
+
+  useEffect(() => {
+    axios.post("/api/board/getBoardDetail", variable).then((response) => {
+      if (response.data.success) {
+        console.log("variable", variable);
+        console.log("BoardDetail : ", response.data.boardDetail[0]);
+        setTitle(response.data.boardDetail[0].title);
+        setData(response.data.boardDetail[0].content);
+      } else {
+        alert("정보들을 가져오는데 실패했습니다!");
+      }
+    });
+  }, []);
 
   const onTitleHandler = (event) => {
     setTitle(event.currentTarget.value);
   };
 
-  const handleChange = (e, editor) => {
-    setData(editor.getData());
+  const onContentHandler = (event) => {
+    setData(event.currentTarget.value);
   };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    console.log(props);
-    console.log(event);
-
-    console.log("Title", Title);
-    console.log("Data", Data);
-    let text = Data.replace(/&nbsp;/gi, "");
-    text = text.replace(/(<([^>]+)>)/gi, "");
-    text = text.replace(/<br\/>/gi, "\n");
-    text = text.replace(
-      /<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
-      ""
-    );
-    console.log("Text", text);
-
     let body = {
       boardId: boardId,
       title: Title,
-      content: text,
+      content: Data,
       now: getNow(),
     };
 
@@ -64,14 +63,22 @@ function BoardUpdate(props) {
         type="text"
         placeholder="글 제목"
         style={{ marginBottom: "10px", width: "100%" }}
-        value={Title}
+        defaultValue={Title}
         onChange={onTitleHandler}
       />
-      <CKEditor
-        editor={ClassicEditor}
-        onChange={(e, editor) => {
-          handleChange(e, editor);
+      <textarea
+        type="text"
+        style={{
+          width: "100%",
+          height: "400px",
+          border: "1px solid black",
+          marginBottom: "30px",
+          paddingTop: "10px",
+          paddingLeft: "15px",
+          fontSize: "20px",
         }}
+        defaultValue={Data}
+        onChange={onContentHandler}
       />
       <Button
         onClick={onSubmitHandler}

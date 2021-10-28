@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "antd";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getNow } from "../GetCurrentTime/GetCurrentTime";
@@ -22,8 +20,8 @@ function BoardWriteForm(props) {
     setTitle(event.currentTarget.value);
   };
 
-  const handleChange = (e, editor) => {
-    setData(editor.getData());
+  const onContentHandler = (event) => {
+    setData(event.currentTarget.value);
   };
 
   // const getNow = () => {
@@ -40,22 +38,10 @@ function BoardWriteForm(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    console.log("Title", Title);
-    console.log("Data", Data);
-    let text = Data.replace(/&nbsp;/gi, "");
-    text = text.replace(/(<([^>]+)>)/gi, "");
-    text = text.replace(/<br\/>/gi, "\n");
-    text = text.replace(
-      /<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/gi,
-      ""
-    );
-    console.log("Text", text);
-    console.log("writer", user.userData._id);
-
     let body = {
       writer: user.userData._id,
       title: Title,
-      content: text,
+      content: Data,
       now: getNow(),
     };
 
@@ -82,14 +68,21 @@ function BoardWriteForm(props) {
         type="text"
         placeholder="글 제목"
         style={{ marginBottom: "10px", width: "100%" }}
-        value={Title}
+        defaultValue={Title}
         onChange={onTitleHandler}
       />
-      <CKEditor
-        editor={ClassicEditor}
-        onChange={(e, editor) => {
-          handleChange(e, editor);
+      <textarea
+        style={{
+          width: "100%",
+          height: "400px",
+          border: "1px solid black",
+          marginBottom: "30px",
+          paddingTop: "10px",
+          paddingLeft: "15px",
+          fontSize: "20px",
         }}
+        defaultValue={Data}
+        onChange={onContentHandler}
       />
       <Button
         onClick={onSubmitHandler}

@@ -53,14 +53,14 @@ router.post("/login", (req, res) => {
         } else {
           return res.json({
             loginSuccess: false,
-            message: "비밀번호가 틀렸습니다.",
+            message: "비밀번호를 확인해주세요.",
           });
         }
       });
     } else {
       return res.json({
         loginSuccess: false,
-        message: "등록되지 않은 사용자입니다. 이메일을 확인해주세요.",
+        message: "이메일을 확인해주세요.",
       });
     }
   });

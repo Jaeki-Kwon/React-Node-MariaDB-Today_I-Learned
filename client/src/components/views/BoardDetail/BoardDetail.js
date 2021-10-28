@@ -39,7 +39,7 @@ function BoardDetail(props) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        paddingTop: "140px",
       }}
     >
       {Board !== null && (
@@ -68,7 +68,12 @@ function BoardDetail(props) {
             }}
           >
             {console.log("Board.content : ", Board[0])}
-            {Board[0].content}
+            {Board[0].content.split("\n").map((line) => (
+              <span key={line}>
+                {line}
+                <br />
+              </span>
+            ))}
           </ul>
         </>
       )}
