@@ -18,7 +18,8 @@ router.post("/write", (req, res) => {
 
 router.get("/getBoardList", (req, res) => {
   console.log(req.query);
-  const sqlQuery = "SELECT * FROM board WHERE board.writer=? ";
+  const sqlQuery =
+    "SELECT * FROM board WHERE board.writer=? ORDER BY board.id DESC ";
   // const sqlQuery =
   //   "SELECT email, title, content, createDate, board.id FROM user, board WHERE user.id=board.writer";
   db.query(sqlQuery, req.query.id, (err, board) => {

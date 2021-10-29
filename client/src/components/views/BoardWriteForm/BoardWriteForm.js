@@ -38,21 +38,27 @@ function BoardWriteForm(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    let body = {
-      writer: user.userData._id,
-      title: Title,
-      content: Data,
-      now: getNow(),
-    };
+    if (Title === "") {
+      alert("제목을 입력하세요.");
+    } else if (Data === "") {
+      alert("내용을 입력하세요.");
+    } else {
+      let body = {
+        writer: user.userData._id,
+        title: Title,
+        content: Data,
+        now: getNow(),
+      };
 
-    axios.post("/api/board/write", body).then((response) => {
-      console.log("response.data :", response.data);
-      if (response.data.success) {
-        props.history.push("/");
-      } else {
-        alert("글 쓰기를 실패했습니다!");
-      }
-    });
+      axios.post("/api/board/write", body).then((response) => {
+        console.log("response.data :", response.data);
+        if (response.data.success) {
+          props.history.push("/");
+        } else {
+          alert("글 쓰기를 실패했습니다!");
+        }
+      });
+    }
   };
 
   return (
@@ -90,6 +96,7 @@ function BoardWriteForm(props) {
       >
         저장하기
       </Button>
+      <h2>{console.log("Title : ", Title)}</h2>
     </div>
   );
 }

@@ -35,20 +35,26 @@ function BoardUpdate(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    let body = {
-      boardId: boardId,
-      title: Title,
-      content: Data,
-      now: getNow(),
-    };
+    if (Title === "") {
+      alert("제목을 입력하세요.");
+    } else if (Data === "") {
+      alert("내용을 입력하세요.");
+    } else {
+      let body = {
+        boardId: boardId,
+        title: Title,
+        content: Data,
+        now: getNow(),
+      };
 
-    axios.post("/api/board/updateBoard", body).then((response) => {
-      if (response.data.success) {
-        props.history.push(`/board/${boardId}`);
-      } else {
-        alert("수정하지 못했습니다!");
-      }
-    });
+      axios.post("/api/board/updateBoard", body).then((response) => {
+        if (response.data.success) {
+          props.history.push(`/board/${boardId}`);
+        } else {
+          alert("수정하지 못했습니다!");
+        }
+      });
+    }
   };
   return (
     <div
@@ -63,7 +69,7 @@ function BoardUpdate(props) {
         type="text"
         placeholder="글 제목"
         style={{ marginBottom: "10px", width: "100%" }}
-        defaultValue={Title}
+        value={Title}
         onChange={onTitleHandler}
       />
       <textarea
@@ -77,7 +83,7 @@ function BoardUpdate(props) {
           paddingLeft: "15px",
           fontSize: "20px",
         }}
-        defaultValue={Data}
+        value={Data}
         onChange={onContentHandler}
       />
       <Button
